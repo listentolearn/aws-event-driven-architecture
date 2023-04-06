@@ -1,0 +1,40 @@
+{
+  "Version": "2008-10-17",
+  "Id": "__default_policy_ID",
+  "Statement": [
+    {
+      "Sid": "__default_statement_ID",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "SNS:Publish",
+      "Resource": "arn:aws:sns:<region>:<accountId>:<snsTopicName>",
+      "Condition": {
+        "StringEquals": {
+          "aws:SourceAccount": "<accountId>"
+        },
+        "ArnLike": {
+          "aws:SourceArn": "arn:aws:s3:*:*:<s3BucketName>"
+        }
+      }
+    },
+    {
+      "Sid": "sqs_statement",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "sqs.amazonaws.com"
+      },
+      "Action": "sns:Subscribe",
+      "Resource": "arn:aws:sns:<region>:<accountId>:<snsTopicName>",
+      "Condition": {
+        "ArnEquals": {
+          "aws:SourceArn": [
+            "arn:aws:sqs:<region>:<accountId>:<sqsQueueName>",
+            "arn:aws:sqs:<region>:<accountId>:<sqsQueueName>"
+          ]
+        }
+      }
+    }
+  ]
+}
