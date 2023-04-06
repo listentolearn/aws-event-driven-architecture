@@ -1,0 +1,23 @@
+{
+  "Version": "2008-10-17",
+  "Id": "__default_policy_ID",
+  "Statement": [
+    {
+      "Sid": "Stmt1234",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Action": [
+        "sqs:ReceiveMessage",
+        "sqs:sendMessage"
+      ],
+      "Resource": "arn:aws:sqs:<region>:<accountId>:<sqsQueueName>",
+      "Condition": {
+        "ArnEquals": {
+          "aws:SourceArn": "arn:aws:lambda:<region>:<accountId>:<lambdaName>"
+        }
+      }
+    }
+  ]
+}
